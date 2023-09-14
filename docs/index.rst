@@ -5,6 +5,8 @@ powerfit
    :maxdepth: 2
    :caption: Contents:
 
+   module.rst
+
 Indices and tables
 ==================
 

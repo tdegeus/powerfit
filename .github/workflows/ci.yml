@@ -42,7 +42,7 @@ jobs:
         cache-env: true
 
     - name: Install library
-      run: python -m pip install . -v
+      run: python -m pip install . -v --no-build-isolation
 
     - name: Run tests
       run: python -m unittest discover tests -v

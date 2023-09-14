@@ -34,7 +34,7 @@ jobs:
       with:
         environment-file: environment.yaml
         environment-name: myenv
-        cache-env: true
+        cache-env: false
 
     - name: Install library
       run: python -m pip install . -v --no-build-isolation --no-deps

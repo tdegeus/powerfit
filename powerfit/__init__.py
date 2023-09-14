@@ -5,6 +5,47 @@ from numpy.typing import ArrayLike
 from scipy.optimize import curve_fit
 
 
+class Limit:
+    """
+    Small helper class to keep track of the lower and upper limits of a data set.
+
+    For example::
+
+        lim = Limit()
+
+        for data in data_set:
+            lim += data
+
+        print(lim.lower, lim.upper)
+    """
+
+    def __init__(self):
+        self._lim = [np.inf, -np.inf]
+
+    @property
+    def lower(self):
+        return self._lim[0]
+
+    @property
+    def upper(self):
+        return self._lim[1]
+
+    @property
+    def lim(self):
+        return np.array(self._lim)
+
+    def update(self, data):
+        self._lim = [min([np.min(data), self._lim[0]]), max([np.max(data), self._lim[1]])]
+
+    def __radd__(self, data):
+        self.update(data)
+        return self
+
+    def __add__(self, data):
+        self.update(data)
+        return self
+
+
 def _fit_loglog(
     logx: ArrayLike,
     logy: ArrayLike,

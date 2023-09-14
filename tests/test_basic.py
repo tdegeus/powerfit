@@ -5,6 +5,22 @@ import numpy as np
 import powerfit
 
 
+class Test_Limit(unittest.TestCase):
+    """
+    Limit class.
+    """
+
+    def test_main(self):
+        x = np.random.random(100).reshape(10, 10)
+        lim = powerfit.Limit()
+
+        for datum in x:
+            lim += datum
+
+        self.assertAlmostEqual(lim.lower, np.min(x))
+        self.assertAlmostEqual(lim.upper, np.max(x))
+
+
 class Test_powerlaw(unittest.TestCase):
     """
     Fit a powerlaw.

@@ -144,8 +144,8 @@ def powerlaw(
     :return:
         The fit details as a dictionary::
 
-            prefactor: (Fitted) prefactor.
-            exponent: (Fitted) exponent.
+            prefactor: (Fitted) prefactor :math:`c`.
+            exponent: (Fitted) exponent :math:`b`.
             prefactor_error: Estimated error of prefactor.
             exponent_error: Estimated error of exponent.
             pcov: Covariance of fit.
@@ -210,6 +210,23 @@ def powerlaw(
     return details
 
 
+def evaluate_powerlaw(
+    x: ArrayLike,
+    prefactor: float,
+    exponent: float,
+    **kwargs,
+):
+    """
+    Evaluate a powerlaw :math:`y = c x^b` at ``x``.
+
+    :param x: Data points along :math:`x`.
+    :param prefactor: Prefactor :math:`c`.
+    :param exponent: Exponent :math:`b`.
+    :return: The evaluated powerlaw.
+    """
+    return prefactor * x**exponent
+
+
 def exp(
     xdata: ArrayLike,
     ydata: ArrayLike,
@@ -256,8 +273,8 @@ def exp(
     :return:
         The fit details as a dictionary::
 
-            prefactor: (Fitted) prefactor.
-            exponent: (Fitted) exponent.
+            prefactor: (Fitted) prefactor :math:`c`.
+            exponent: (Fitted) exponent :math:`b`.
             prefactor_error: Estimated error of prefactor.
             exponent_error: Estimated error of exponent.
             pcov: Covariance of fit.
@@ -287,6 +304,23 @@ def exp(
             raise OSError("yerr_mode: did you mean 'differentials'?")
 
     return _fit_loglog(x, logy, prefactor, exponent, **fit_opts)
+
+
+def evaluate_exp(
+    x: ArrayLike,
+    prefactor: float,
+    exponent: float,
+    **kwargs,
+):
+    r"""
+    Evaluate an exponential :math:`y = c \exp(b x)`
+
+    :param x: Data points along :math:`x`.
+    :param prefactor: Prefactor :math:`c`.
+    :param exponent: Exponent :math:`b`.
+    :return: The evaluated exponential.
+    """
+    return prefactor * np.exp(exponent * x)
 
 
 def log(
@@ -344,8 +378,8 @@ def linear(
     :return:
         The fit details as a dictionary::
 
-            offset: (Fitted) offset.
-            slope: (Fitted) slope.
+            offset: (Fitted) offset :math:`a`.
+            slope: (Fitted) slope :math:`b`.
             offset_error: Estimated error of offset.
             slope_error: Estimated error of slope.
             pcov: Covariance of fit.
@@ -398,3 +432,20 @@ def linear(
     details["slope"] = slope
 
     return details
+
+
+def evaluate_linear(
+    x: ArrayLike,
+    offset: float,
+    slope: float,
+    **kwargs,
+):
+    """
+    Evaluate a linear function :math:`y = a + b x` at ``x``.
+
+    :param x: Data points along :math:`x`.
+    :param offset: Offset :math:`a`.
+    :param slope: Slope :math:`b`.
+    :return: The evaluated linear function.
+    """
+    return offset + slope * x

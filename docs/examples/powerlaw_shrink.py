@@ -18,11 +18,9 @@ x = np.logspace(1, 5, 100)
 y = 1.2 * x**-3.4 * np.exp(-x / 1e4)
 
 fit = powerfit.powerlaw(x, y, exponent=-3.4, cutoff_upper=-1)
-p = fit["prefactor"] * x ** fit["exponent"]
-print(fit["slice"])
 
 axes[0].plot(x, y, c="k", marker=".")
-axes[0].plot(x, p, c="r")
+axes[0].plot(x, powerfit.evaluate_powerlaw(x, **fit), c="r")
 
 y = np.logspace(1, 5, 100)
 x = 1.2 * y**-3.4 * np.exp(-y / 1e4)
@@ -31,11 +29,9 @@ x = x[sorter]
 y = y[sorter]
 
 fit = powerfit.powerlaw(x, y, cutoff_lower=-1)
-p = fit["prefactor"] * x ** fit["exponent"]
-s = fit["slice"]
 
 axes[1].plot(x, y, c="k", marker=".")
-axes[1].plot(x, p, c="r")
+axes[1].plot(x, powerfit.evaluate_powerlaw(x, **fit), c="r")
 
 plt.savefig(root / (basename + ".png"))
 plt.close(fig)
